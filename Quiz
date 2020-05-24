@@ -68,6 +68,9 @@ r4.grid(row=4, column=0, sticky=W)
 ans = ["Sir Winston Churchill", "Jan Vermeer", "Socrates", "Chile", "Valorant"]
 response = r.get()
 
+# Create an Answer Label.
+answer_label = Label(q_frame, text="The answer is " + str(ans[0]), padx=5, pady=5)
+
 # Create a Function to Check Whether the Answer is Right or Not
 def answer():
     global ans
@@ -81,11 +84,17 @@ def answer():
         messagebox.showinfo(None, "You have guessed correctly")
     else:
         messagebox.showinfo(None, "You have guessed incorrectly")
-        answer_label = Label(q_frame, text="The answer is " + str(ans[0]), padx=5, pady=5)
         answer_label.grid(row=5, column=0, sticky=W)
 
+    # Create an if Statement To Disable the RadioButton
+    if response != NONE:
+        r1.configure(state=DISABLED)
+        r2.configure(state=DISABLED)
+        r3.configure(state=DISABLED)
+        r4.configure(state=DISABLED)
+
 # Create a Function for Next Button
-def next(image_number, question_number, choice_number):
+def next(image_number, question_number, choice_number, answer_number):
     global my_label
     global next_button
     global q_label
@@ -102,7 +111,8 @@ def next(image_number, question_number, choice_number):
 
     my_label = Label(image=image_list[image_number-1])
     q_label = Label(q_frame, text=question_list[question_number-1])
-    next_button = Button(root, text="Next", command=lambda: next(image_number+1, question_number+1, choice_number+1))
+    answer_label = Label(q_frame, text="The answer is " + str(ans[answer_number - 1]), padx=5, pady=5)
+    next_button = Button(root, text="Next", command=lambda: next(image_number+1, question_number+1, choice_number+1, answer_number+1))
 
 
     # Update the Radio Button
@@ -131,7 +141,7 @@ def close():
 submit_button = Button(root, text="Submit Answer", command=answer)
 submit_button.grid(row=2, column=1)
 
-next_button = Button(root, text="Next", command=lambda: next(2, 2, 2))
+next_button = Button(root, text="Next", command=lambda: next(2, 2, 2, 2))
 next_button.grid(row=2, column=2)
 
 close_button = Button(root, text="Close", command=close)
