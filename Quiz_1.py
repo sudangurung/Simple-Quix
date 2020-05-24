@@ -15,11 +15,11 @@ q_frame = LabelFrame(root, padx=20, pady=20)
 q_frame.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
 
 # Create an Image List
-my_img1 = ImageTk.PhotoImage(Image.open("Winston.jpg"))
-my_img2 = ImageTk.PhotoImage(Image.open("Jan.jpg"))
-my_img3 = ImageTk.PhotoImage(Image.open("Socrates.jpg"))
-my_img4 = ImageTk.PhotoImage(Image.open("Chile.jpg"))
-my_img5 = ImageTk.PhotoImage(Image.open("sage.jpg"))
+my_img1 = ImageTk.PhotoImage(Image.open("pictures/Winston.jpg"))
+my_img2 = ImageTk.PhotoImage(Image.open("pictures/Jan.jpg"))
+my_img3 = ImageTk.PhotoImage(Image.open("pictures/Socrates.jpg"))
+my_img4 = ImageTk.PhotoImage(Image.open("pictures/Chile.jpg"))
+my_img5 = ImageTk.PhotoImage(Image.open("pictures/sage.jpg"))
 
 image_list = [my_img1, my_img2, my_img3, my_img4, my_img5]
 
@@ -43,11 +43,9 @@ choice_list = [q1_choice, q2_choice, q3_choice, q4_choice, q5_choice]
 
 # Put the Question Image in the image_frame
 my_label = Label(image_frame, image=my_img1)
-my_label.grid(row=0, column=0, columnspan=3)
 
 # Create a Label For The Question
 q_label = Label(q_frame, text=question1)
-q_label.grid(row=0, column=0)
 
 # Create a variable r
 r = StringVar()
@@ -58,11 +56,6 @@ r1 = Radiobutton(q_frame, text=q1_choice[0], variable=r, value=q1_choice[0])
 r2 = Radiobutton(q_frame, text=q1_choice[1], variable=r, value=q1_choice[1])
 r3 = Radiobutton(q_frame, text=q1_choice[2], variable=r, value=q1_choice[2])
 r4 = Radiobutton(q_frame, text=q1_choice[3], variable=r, value=q1_choice[3])
-
-r1.grid(row=1, column=0, sticky=W)
-r2.grid(row=2, column=0, sticky=W)
-r3.grid(row=3, column=0, sticky=W)
-r4.grid(row=4, column=0, sticky=W)
 
 # Create an Answer List.
 ans = ["Sir Winston Churchill", "Jan Vermeer", "Socrates", "Chile", "Valorant"]
@@ -112,17 +105,24 @@ def next(image_number, question_number, choice_number, answer_number):
     my_label = Label(image=image_list[image_number-1])
     q_label = Label(q_frame, text=question_list[question_number-1])
     answer_label = Label(q_frame, text="The answer is " + str(ans[answer_number - 1]), padx=5, pady=5)
-    next_button = Button(root, text="Next", command=lambda: next(image_number+1, question_number+1, choice_number+1, answer_number+1))
+    next_button = Button(root, text="Next", state=DISABLED, command=lambda: next(image_number+1, question_number+1, choice_number+1, answer_number+1))
 
+   # function that is called when you select a certain radio button
+    def selected():
+        if r.get() is not None and image_number != 5:
+            next_button['state'] = 'normal'
 
     # Update the Radio Button
-    r1 = Radiobutton(q_frame, text=choice_list[choice_number-1][0], variable=r, value=choice_list[choice_number-1][0])
-    r2 = Radiobutton(q_frame, text=choice_list[choice_number-1][1], variable=r, value=choice_list[choice_number-1][1])
-    r3 = Radiobutton(q_frame, text=choice_list[choice_number-1][2], variable=r, value=choice_list[choice_number-1][2])
-    r4 = Radiobutton(q_frame, text=choice_list[choice_number-1][3], variable=r, value=choice_list[choice_number-1][3])
+    r1 = Radiobutton(q_frame, text=choice_list[choice_number-1][0], variable=r, value=choice_list[choice_number-1][0], command=selected)
+    r2 = Radiobutton(q_frame, text=choice_list[choice_number-1][1], variable=r, value=choice_list[choice_number-1][1], command=selected)
+    r3 = Radiobutton(q_frame, text=choice_list[choice_number-1][2], variable=r, value=choice_list[choice_number-1][2], command=selected)
+    r4 = Radiobutton(q_frame, text=choice_list[choice_number-1][3], variable=r, value=choice_list[choice_number-1][3], command=selected)
 
     if image_number == 5:
         next_button = Button(root, text="Next", state=DISABLED)
+        # Create Button For Submit, Next and Close Window.
+        submit_button = Button(root, text="Submit Answer", command=answer)
+        submit_button.grid(row=2, column=1)
 
     my_label.grid(row=0, column=0, columnspan=3)
     q_label.grid(row=0, column=0)
@@ -137,11 +137,7 @@ def next(image_number, question_number, choice_number, answer_number):
 def close():
     root.destroy()
 
-# Create Button For Submit, Next and Close Window.
-submit_button = Button(root, text="Submit Answer", command=answer)
-submit_button.grid(row=2, column=1)
-
-next_button = Button(root, text="Next", command=lambda: next(2, 2, 2, 2))
+next_button = Button(root, text="Play", command=lambda: next(1, 1, 1, 1))
 next_button.grid(row=2, column=2)
 
 close_button = Button(root, text="Close", command=close)
