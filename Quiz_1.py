@@ -41,28 +41,9 @@ q5_choice = ["Apex Legends", "OverWatch", "Far Cry", "Valorant"]
 
 choice_list = [q1_choice, q2_choice, q3_choice, q4_choice, q5_choice]
 
-# Put the Question Image in the image_frame
-my_label = Label(image_frame, image=my_img1)
-my_label.grid(row=0, column=0, columnspan=3)
-
-# Create a Label For The Question
-q_label = Label(q_frame, text=question1)
-q_label.grid(row=0, column=0)
-
 # Create a variable r
 r = StringVar()
 r.set(NONE)
-
-# Create the Radio Button for The Choices
-r1 = Radiobutton(q_frame, text=q1_choice[0], variable=r, value=q1_choice[0])
-r2 = Radiobutton(q_frame, text=q1_choice[1], variable=r, value=q1_choice[1])
-r3 = Radiobutton(q_frame, text=q1_choice[2], variable=r, value=q1_choice[2])
-r4 = Radiobutton(q_frame, text=q1_choice[3], variable=r, value=q1_choice[3])
-
-r1.grid(row=1, column=0, sticky=W)
-r2.grid(row=2, column=0, sticky=W)
-r3.grid(row=3, column=0, sticky=W)
-r4.grid(row=4, column=0, sticky=W)
 
 # Create an Answer List.
 ans = ["Sir Winston Churchill", "Jan Vermeer", "Socrates", "Chile", "Valorant"]
@@ -71,12 +52,44 @@ response = r.get()
 # Create an Answer Label.
 answer_label = Label(q_frame, text="The answer is " + str(ans[0]), padx=5, pady=5)
 
-# Create an if Statement To Disable the Radio Button
-if r.get() != NONE:
-    r1.configure(state=DISABLED)
-    r2.configure(state=DISABLED)
-    r3.configure(state=DISABLED)
-    r4.configure(state=DISABLED)
+user_answer = []
+
+# Create a Function to Start the Quiz.
+def start():
+    global my_label
+    global q_label
+    global r1, r2, r3, r4
+    global next_button
+    global close_button
+    global start_button
+
+    start_button.grid_forget()
+
+    # Put the Question Image in the image_frame
+    my_label = Label(image_frame, image=my_img1)
+    my_label.grid(row=0, column=0, columnspan=3)
+
+    # Create a Label For The Question
+    q_label = Label(q_frame, text=question1)
+    q_label.grid(row=0, column=0)
+
+    # Create the Radio Button for The Choices
+    r1 = Radiobutton(q_frame, text=q1_choice[0], variable=r, value=q1_choice[0])
+    r2 = Radiobutton(q_frame, text=q1_choice[1], variable=r, value=q1_choice[1])
+    r3 = Radiobutton(q_frame, text=q1_choice[2], variable=r, value=q1_choice[2])
+    r4 = Radiobutton(q_frame, text=q1_choice[3], variable=r, value=q1_choice[3])
+
+    r1.grid(row=1, column=0, sticky=W)
+    r2.grid(row=2, column=0, sticky=W)
+    r3.grid(row=3, column=0, sticky=W)
+    r4.grid(row=4, column=0, sticky=W)
+
+    # Create Button For Submit, Next and Close Window.
+    next_button = Button(root, text="Next", command=lambda: next(2, 2, 2, 2))
+    next_button.grid(row=2, column=2)
+
+    close_button = Button(root, text="Close", command=close)
+    close_button.grid(row=2, column=0)
 
 # Create a Function to Check Whether the Answer is Right or Not
 def answer():
@@ -116,6 +129,14 @@ def next(image_number, question_number, choice_number, answer_number):
 
     # Create a Function that is Called When You Select a Certain Radio Button
     def selected():
+        global user_answer
+        global response
+
+        response = r.get()
+
+        user_answer.append(response)
+        print(user_answer)
+
         if r.get() is not NONE and image_number != 5:
             r1.configure(state=DISABLED)
             r2.configure(state=DISABLED)
@@ -150,12 +171,8 @@ def next(image_number, question_number, choice_number, answer_number):
 def close():
     root.destroy()
 
-# Create Button For Submit, Next and Close Window.
-
-next_button = Button(root, text="Next", command=lambda: next(2, 2, 2, 2))
-next_button.grid(row=2, column=2)
-
-close_button = Button(root, text="Close", command=close)
-close_button.grid(row=2, column=0)
+# Create a Start Button.
+start_button = Button(root, text="START", command=start)
+start_button.grid(row=2, column=1, padx=10, pady=10)
 
 root.mainloop()
