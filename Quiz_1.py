@@ -173,15 +173,23 @@ def calc():
 # Create a Function to reveal the Answer.
 def reveal():
     global my_label3
+    #global next_button
+    global close_button
+    global submit_button
+
+    root.geometry("450x150")
 
     my_label3.grid_forget()
+    #next_button.destroy()
+    close_button.grid_forget()
+    submit_button.grid_forget()
 
     # Create Label to Show the Answer
-    ans_label = Label(root, text="The answer to Q1 is " + ans[0] + ". Your answer was " + user_answer[0] + ".")
-    ans_label1 = Label(root, text="The answer to Q1 is " + ans[1] + ". Your answer was " + user_answer[1] + ".")
-    ans_label2 = Label(root, text="The answer to Q1 is " + ans[2] + ". Your answer was " + user_answer[2] + ".")
-    ans_label3 = Label(root, text="The answer to Q1 is " + ans[3] + ". Your answer was " + user_answer[3] + ".")
-    ans_label4 = Label(root, text="The answer to Q1 is " + ans[4] + ". Your answer was " + user_answer[4] + ".")
+    ans_label = Label(root, text="- The answer to Q1 is " + ans[0] + ". Your answer was " + user_answer[0] + ".")
+    ans_label1 = Label(root, text="- The answer to Q1 is " + ans[1] + ". Your answer was " + user_answer[1] + ".")
+    ans_label2 = Label(root, text="- The answer to Q1 is " + ans[2] + ". Your answer was " + user_answer[2] + ".")
+    ans_label3 = Label(root, text="- The answer to Q1 is " + ans[3] + ". Your answer was " + user_answer[3] + ".")
+    ans_label4 = Label(root, text="- The answer to Q1 is " + ans[4] + ". Your answer was " + user_answer[4] + ".")
 
     ans_label.grid(row=1, column=0, sticky=W)
     ans_label1.grid(row=2, column=0, sticky=W)
@@ -189,14 +197,16 @@ def reveal():
     ans_label3.grid(row=4, column=0, sticky=W)
     ans_label4.grid(row=5, column=0, sticky=W)
 
+    close_button.grid(row=7, column=0, padx=10, pady=10)
+
 # Create a Function to Show the Result at the End
 def answer():
     global my_label, q_label
     global r1, r2, r3, r4
-    global next_button
     global my_label3
     global image_frame, q_frame
     global submit_button
+    global next_button
 
     my_label.grid_forget()
     q_label.grid_forget()
