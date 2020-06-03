@@ -173,14 +173,14 @@ def calc():
 # Create a Function to reveal the Answer.
 def reveal():
     global my_label3
-    #global next_button
+    global next_button
     global close_button
     global submit_button
 
     root.geometry("450x150")
 
     my_label3.grid_forget()
-    #next_button.destroy()
+    next_button.destroy()
     close_button.grid_forget()
     submit_button.grid_forget()
 
@@ -206,7 +206,6 @@ def answer():
     global my_label3
     global image_frame, q_frame
     global submit_button
-    global next_button
 
     my_label.grid_forget()
     q_label.grid_forget()
@@ -216,7 +215,6 @@ def answer():
     r2.grid_forget()
     r3.grid_forget()
     r4.grid_forget()
-    next_button.grid_forget()
 
     root.geometry("390x400")
 
